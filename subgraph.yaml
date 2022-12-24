@@ -1,0 +1,53 @@
+specVersion: 0.0.5
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum
+    name: AuctionHouse
+    network: goerli
+    source:
+      address: "0xc290450311686f9B4d87b579da0b8b83C809517c"
+      abi: AuctionHouse
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - AuctionBid
+        - AuctionCreated
+        - AuctionDurationUpdated
+        - AuctionExtended
+        - AuctionMinBidIncrementPercentageUpdated
+        - AuctionReservePriceUpdated
+        - AuctionSettled
+        - AuctionTimeBufferUpdated
+        - OwnershipTransferred
+        - Paused
+        - Unpaused
+      abis:
+        - name: AuctionHouse
+          file: ./abis/AuctionHouse.json
+      eventHandlers:
+        - event: AuctionBid(indexed uint256,address,uint256,bool)
+          handler: handleAuctionBid
+        - event: AuctionCreated(indexed uint256,uint256,uint256)
+          handler: handleAuctionCreated
+        - event: AuctionDurationUpdated(uint256)
+          handler: handleAuctionDurationUpdated
+        - event: AuctionExtended(indexed uint256,uint256)
+          handler: handleAuctionExtended
+        - event: AuctionMinBidIncrementPercentageUpdated(uint256)
+          handler: handleAuctionMinBidIncrementPercentageUpdated
+        - event: AuctionReservePriceUpdated(uint256)
+          handler: handleAuctionReservePriceUpdated
+        - event: AuctionSettled(indexed uint256,address,uint256)
+          handler: handleAuctionSettled
+        - event: AuctionTimeBufferUpdated(uint256)
+          handler: handleAuctionTimeBufferUpdated
+        - event: OwnershipTransferred(indexed address,indexed address)
+          handler: handleOwnershipTransferred
+        - event: Paused(address)
+          handler: handlePaused
+        - event: Unpaused(address)
+          handler: handleUnpaused
+      file: ./src/auction-house.ts
